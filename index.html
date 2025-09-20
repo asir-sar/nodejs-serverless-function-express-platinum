@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,85 +13,60 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
         .step-content {
             display: none;
         }
-
         .step-content.active {
             display: block;
         }
-
         .icon-card {
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             border: 2px solid rgb(229, 231, 235);
-            border-radius: 0.75rem;
-            /* rounded-xl */
+            border-radius: 0.75rem; /* rounded-xl */
         }
-
         .icon-card.selected {
-            background-color: rgba(65, 131, 215, 0.1);
-            /* A light blue to match the brand */
-            box-shadow: 0 0 0 4px #297be2;
-            /* A strong blue ring */
+            background-color: rgba(65, 131, 215, 0.1); /* A light blue to match the brand */
+            box-shadow: 0 0 0 4px #297be2; /* A strong blue ring */
         }
-
         .icon-card-small {
-            min-width: unset;
+             min-width: unset;
         }
 
         /* Custom styles to match the Platinum-Umzüge site */
-        h2,
-        h3,
-        h4,
-        .form-label {
-            color: #444;
-            /* Dark gray for text */
+        h2, h3, h4, .form-label {
+            color: #444; /* Dark gray for text */
         }
-
         .btn-primary {
             background-color: #22a9e3;
             color: white;
             padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            /* full rounded */
+            border-radius: 9999px; /* full rounded */
             font-weight: 600;
             transition: background-color 0.2s;
         }
-
         .btn-primary:hover {
             background-color: #1a8fbe;
         }
-
         .btn-secondary {
             background-color: #eee;
             color: #444;
             padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            /* full rounded */
+            border-radius: 9999px; /* full rounded */
             font-weight: 600;
             transition: background-color 0.2s;
         }
-
         .btn-secondary:hover {
             background-color: #ddd;
         }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="number"],
-        select,
-        textarea {
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
             border: 1px solid #ccc;
             border-radius: 0;
             padding: 0.75rem;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,.075);
         }
     </style>
 </head>
-
 <body class="flex items-center justify-center min-h-screen py-10">
     <div class="bg-white p-8 sm:p-10 w-full max-w-2xl mx-4 transition-all duration-300">
         <!-- Progress Bar -->
@@ -102,16 +76,15 @@
                 <span id="step-name">Location</span>
             </div>
             <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-500 ease-in-out"
-                    style="width: 20%;"></div>
+                <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-500 ease-in-out" style="width: 20%;"></div>
             </div>
         </div>
-
+        
         <!-- Validation message box -->
         <div id="validation-message" class="hidden p-4 mb-6 rounded-lg bg-red-100 text-red-700 font-medium">
-            Please fill in all the required fields.
+             Please fill in all the required fields.
         </div>
-
+        
         <!--
             The form no longer has an "action" attribute.
             The submission is handled securely by the JavaScript "fetch" function.
@@ -124,8 +97,7 @@
             <div id="step-1" class="step-content active">
                 <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Where is your assignment located?</h2>
                 <p class="text-gray-600 mb-6">Please provide the postcode of your order.</p>
-                <input type="text" id="origin-postcode" name="origin_postcode" placeholder="Postcode"
-                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <input type="text" id="origin-postcode" name="origin_postcode" placeholder="Postcode" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
             </div>
 
             <!-- Step 2: What to transport & other details -->
@@ -141,8 +113,7 @@
                         <span class="text-3xl mb-2">🛏️</span>
                         <span class="text-sm font-medium text-gray-700">Bed</span>
                     </div>
-                    <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Wardrobe">
+                    <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Wardrobe">
                         <span class="text-3xl mb-2">👔</span>
                         <span class="text-sm font-medium text-gray-700">Wardrobe</span>
                     </div>
@@ -150,8 +121,7 @@
                         <span class="text-3xl mb-2">🛋️</span>
                         <span class="text-sm font-medium text-gray-700">Sofa</span>
                     </div>
-                    <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Table">
+                    <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Table">
                         <span class="text-3xl mb-2">🍽️</span>
                         <span class="text-sm font-medium text-gray-700">Table</span>
                     </div>
@@ -163,33 +133,26 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label for="boxes" class="block text-sm font-medium text-gray-700 mb-2">How many moving boxes?
-                            (optional)</label>
-                        <input type="number" id="boxes" name="boxes_count" placeholder="Number of boxes"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="boxes" class="block text-sm font-medium text-gray-700 mb-2">How many moving boxes? (optional)</label>
+                        <input type="number" id="boxes" name="boxes_count" placeholder="Number of boxes" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     </div>
                     <div>
-                        <label for="living-space" class="block text-sm font-medium text-gray-700 mb-2">Approximate
-                            living space (m²)? (optional)</label>
-                        <input type="number" id="living-space" name="living_space" placeholder="Size in m²"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="living-space" class="block text-sm font-medium text-gray-700 mb-2">Approximate living space (m²)? (optional)</label>
+                        <input type="number" id="living-space" name="living_space" placeholder="Size in m²" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     </div>
                 </div>
 
                 <h3 class="text-lg font-semibold mb-3 text-gray-800">Who will take over the packing?</h3>
                 <div id="packing-selection" class="flex flex-wrap gap-4 mb-8">
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Self">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Self">
                         <span class="text-3xl mb-2">🙋</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Packing yourself</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Company">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Company">
                         <span class="text-3xl mb-2">📦🚚</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Moving Company</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Consultation">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Consultation">
                         <span class="text-3xl mb-2">🤝</span>
                         <span class="text-sm font-medium text-gray-700 text-center">After consultation</span>
                     </div>
@@ -197,23 +160,19 @@
 
                 <h3 class="text-lg font-semibold mb-3 text-gray-800">Do you need additional services? (optional)</h3>
                 <div id="services-selection" class="flex flex-wrap gap-4">
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Assembly">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Assembly">
                         <span class="text-3xl mb-2">🛠️</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Assembly & Removal</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Packaging">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Packaging">
                         <span class="text-3xl mb-2">📦</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Packaging Material</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Storage">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Storage">
                         <span class="text-3xl mb-2">🏠</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Storage</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Other">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Other">
                         <span class="text-3xl mb-2">ℹ️</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Other</span>
                     </div>
@@ -225,10 +184,8 @@
                 <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Move-out and Move-in Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
-                        <label for="origin-floor" class="block text-sm font-medium text-gray-700 mb-2">Move-out
-                            floor</label>
-                        <select id="origin-floor" name="origin_floor"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="origin-floor" class="block text-sm font-medium text-gray-700 mb-2">Move-out floor</label>
+                        <select id="origin-floor" name="origin_floor" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Floor</option>
                             <option value="1">Floor 1</option>
                             <option value="2">Floor 2</option>
@@ -238,20 +195,16 @@
                         </select>
                     </div>
                     <div>
-                        <label for="origin-elevator" class="block text-sm font-medium text-gray-700 mb-2">Elevator at
-                            origin?</label>
-                        <select id="origin-elevator" name="origin_elevator"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="origin-elevator" class="block text-sm font-medium text-gray-700 mb-2">Elevator at origin?</label>
+                        <select id="origin-elevator" name="origin_elevator" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Option</option>
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
                         </select>
                     </div>
                     <div>
-                        <label for="origin-parking" class="block text-sm font-medium text-gray-700 mb-2">Parking at
-                            origin?</label>
-                        <select id="origin-parking" name="origin_parking"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="origin-parking" class="block text-sm font-medium text-gray-700 mb-2">Parking at origin?</label>
+                        <select id="origin-parking" name="origin_parking" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Option</option>
                             <option value="available">Parking available</option>
                             <option value="no-holds">No-holds zone needed</option>
@@ -262,21 +215,15 @@
 
                 <div class="mb-6">
                     <h3 class="text-xl font-semibold mb-3 text-gray-800">Destination Details</h3>
-                    <label for="destination-postcode" class="block text-sm font-medium text-gray-700 mb-2">Which city
-                        are you moving to?</label>
-                    <input type="text" id="destination-postcode" name="destination_postcode"
-                        placeholder="Postcode of destination"
-                        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors mb-4">
-                    <input type="text" id="destination-city" name="destination_city" placeholder="Name of the city"
-                        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <label for="destination-postcode" class="block text-sm font-medium text-gray-700 mb-2">Which city are you moving to?</label>
+                    <input type="text" id="destination-postcode" name="destination_postcode" placeholder="Postcode of destination" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors mb-4">
+                    <input type="text" id="destination-city" name="destination_city" placeholder="Name of the city" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="destination-floor" class="block text-sm font-medium text-gray-700 mb-2">Move-in
-                            floor</label>
-                        <select id="destination-floor" name="destination_floor"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="destination-floor" class="block text-sm font-medium text-gray-700 mb-2">Move-in floor</label>
+                        <select id="destination-floor" name="destination_floor" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Floor</option>
                             <option value="1">Floor 1</option>
                             <option value="2">Floor 2</option>
@@ -286,20 +233,16 @@
                         </select>
                     </div>
                     <div>
-                        <label for="destination-elevator" class="block text-sm font-medium text-gray-700 mb-2">Elevator
-                            at destination?</label>
-                        <select id="destination-elevator" name="destination_elevator"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="destination-elevator" class="block text-sm font-medium text-gray-700 mb-2">Elevator at destination?</label>
+                        <select id="destination-elevator" name="destination_elevator" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Option</option>
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
                         </select>
                     </div>
                     <div>
-                        <label for="destination-parking" class="block text-sm font-medium text-gray-700 mb-2">Parking at
-                            destination?</label>
-                        <select id="destination-parking" name="destination_parking"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <label for="destination-parking" class="block text-sm font-medium text-gray-700 mb-2">Parking at destination?</label>
+                        <select id="destination-parking" name="destination_parking" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                             <option value="">Select Option</option>
                             <option value="available">Parking available</option>
                             <option value="no-holds">No-holds zone needed</option>
@@ -315,39 +258,30 @@
 
                 <h3 class="text-lg font-semibold mb-3 text-gray-800">When should the work be done? (optional)</h3>
                 <div id="timing-selection" class="flex flex-wrap gap-4 mb-8">
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Urgent">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Urgent">
                         <span class="text-3xl mb-2">⏰</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Urgent</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="Consultation">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Consultation">
                         <span class="text-3xl mb-2">🤝</span>
                         <span class="text-sm font-medium text-gray-700 text-center">After consultation</span>
                     </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
-                        data-value="2Weeks">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="2Weeks">
                         <span class="text-3xl mb-2">📅</span>
                         <span class="text-sm font-medium text-gray-700 text-center">Within 2 weeks</span>
                     </div>
                 </div>
 
                 <div class="mb-6">
-                    <label for="photos" class="block text-sm font-medium text-gray-700 mb-2">Photos or blueprints
-                        (optional)</label>
-                    <p class="text-xs text-gray-500 mb-3">By adding images, craftsmen can better assess your order and
-                        provide a better deal.</p>
-                    <input type="file" id="photos" name="photos" accept="image/*"
-                        class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                    <label for="photos" class="block text-sm font-medium text-gray-700 mb-2">Photos or blueprints (optional)</label>
+                    <p class="text-xs text-gray-500 mb-3">By adding images, craftsmen can better assess your order and provide a better deal.</p>
+                    <input type="file" id="photos" name="photos" accept="image/*" class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
                 </div>
 
                 <div>
-                    <label for="other-info" class="block text-sm font-medium text-gray-700 mb-2">Other information
-                        (optional)</label>
-                    <p class="text-xs text-gray-500 mb-3">Avoid providing contact details and use the contact functions
-                        instead.</p>
-                    <textarea id="other-info" name="other_info" rows="4" placeholder="Enter any other details here..."
-                        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"></textarea>
+                    <label for="other-info" class="block text-sm font-medium text-gray-700 mb-2">Other information (optional)</label>
+                    <p class="text-xs text-gray-500 mb-3">Avoid providing contact details and use the contact functions instead.</p>
+                    <textarea id="other-info" name="other_info" rows="4" placeholder="Enter any other details here..." class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"></textarea>
                 </div>
             </div>
 
@@ -355,29 +289,22 @@
             <div id="step-5" class="step-content">
                 <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Final Details & Submission</h2>
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Get a response from craftsmen in your area.
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-2">Your data is only visible to craftsmen when you contact them.
-                    </p>
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Get a response from craftsmen in your area.</h3>
+                    <p class="text-sm text-gray-500 mb-2">Your data is only visible to craftsmen when you contact them.</p>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" id="email" name="_replyto" placeholder="youremail@example.com"
-                        class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <input type="email" id="email" name="email" placeholder="youremail@example.com" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 </div>
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">To get updates on your order, create a customer
-                        account.</h3>
-                    <p class="text-sm text-gray-500 mb-2">Your data is only visible to craftsmen when you contact them.
-                    </p>
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">To get updates on your order, create a customer account.</h3>
+                    <p class="text-sm text-gray-500 mb-2">Your data is only visible to craftsmen when you contact them.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your Full Name"
-                                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                            <input type="text" id="name" name="name" placeholder="Your Full Name" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" id="phone" name="phone_number" placeholder="Phone Number"
-                                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                            <input type="tel" id="phone" name="phone_number" placeholder="Phone Number" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                         </div>
                     </div>
                 </div>
@@ -388,28 +315,23 @@
                 </div>
 
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="newsletter-consent"
-                        class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                    <input type="checkbox" id="newsletter-consent" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                     <label for="newsletter-consent" class="ml-2 block text-xs text-gray-600">
-                        I would like to receive advertising about services provided by MyHammer by email, text message
-                        and/or telephone. I can unsubscribe at any time.
+                        I would like to receive advertising about services provided by MyHammer by email, text message and/or telephone. I can unsubscribe at any time.
                     </label>
                 </div>
-                <p class="text-xs text-gray-500 leading-tight">By clicking on "Next" you are voting Terms and Conditions
-                    from MyHammer to.Information on the processing of your data in our Privacy Policy.</p>
+                <p class="text-xs text-gray-500 leading-tight">By clicking on "Next" you are voting Terms and Conditions from MyHammer to.Information on the processing of your data in our Privacy Policy.</p>
             </div>
 
             <!-- Navigation Buttons -->
             <div class="flex justify-between mt-8">
                 <button type="button" id="back-button" class="btn-secondary" style="display: none;">Back</button>
-                <button type="button" id="next-button"
-                    class="ml-auto btn-primary disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+                <button type="button" id="next-button" class="ml-auto btn-primary disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
             </div>
         </form>
         <div id="thank-you-message" class="hidden text-center p-10">
             <h2 class="text-3xl font-bold text-green-600 mb-4">Thank you for your order!</h2>
-            <p class="text-lg text-gray-700">We have received your information and a craftsman will be in touch shortly.
-            </p>
+            <p class="text-lg text-gray-700">We have received your information and a craftsman will be in touch shortly.</p>
         </div>
     </div>
 
@@ -425,7 +347,7 @@
             const summaryContent = document.getElementById('summary-content');
             const thankYouMessage = document.getElementById('thank-you-message');
             const validationMessage = document.getElementById('validation-message');
-
+            
             let currentStep = 0;
             const formNames = ["Location", "Transport Details", "Origin & Destination", "Additional Info", "Summary"];
 
@@ -519,7 +441,7 @@
                 const isValid = validateStep(currentStep);
                 nextButton.disabled = !isValid;
                 validationMessage.classList.toggle('hidden', isValid);
-
+                
                 // Also update submit button if it's the last step
                 if (currentStep === stepElements.length - 1) {
                     const nameInput = document.getElementById('name');
@@ -537,7 +459,7 @@
                 });
 
                 backButton.style.display = currentStep > 0 ? 'block' : 'none';
-
+                
                 if (currentStep === stepElements.length - 1) {
                     nextButton.textContent = 'Submit';
                 } else {
@@ -552,7 +474,7 @@
                 if (currentStep === stepElements.length - 1) {
                     generateSummary();
                 }
-
+                
                 // Update button state based on validation
                 updateButtonState();
             }
@@ -565,11 +487,11 @@
                     if (Array.isArray(value) && value.length > 0) {
                         value = value.join(', ');
                     } else if (typeof value === 'object' && value !== null) {
-                        // Check for file data
-                        if (value.fileName) {
-                            summaryText += `\n<strong>${key}:</strong> ${value.fileName}`;
-                            continue;
-                        }
+                         // Check for file data
+                         if(value.fileName) {
+                             summaryText += `\n<strong>${key}:</strong> ${value.fileName}`;
+                             continue;
+                         }
                         // Handle nested objects from form fields
                         let nestedSummary = [];
                         for (const subKey in value) {
@@ -583,7 +505,7 @@
                         continue;
                     }
                     if (value) {
-                        summaryText += `\n<strong>${key}:</strong> ${value}`;
+                         summaryText += `\n<strong>${key}:</strong> ${value}`;
                     }
                 }
                 summaryContent.innerHTML = summaryText.trim() === "" ? "No data entered yet." : summaryText;
@@ -599,20 +521,20 @@
                     updateUI();
                 }
             }
-
+            
             async function handleSubmit(event) {
                 event.preventDefault();
                 saveStepData(currentStep);
-
+                
                 // Collect all form data including hidden fields
                 const formInputs = document.querySelectorAll('input, select, textarea');
                 const submitData = {};
                 formInputs.forEach(input => {
                     if (input.type === 'checkbox') {
-                        submitData[input.name] = input.checked;
+                         submitData[input.name] = input.checked;
                     } else if (input.type === 'file') {
                         if (input.files.length > 0) {
-                            submitData[input.name] = input.files[0].name; // Just send the file name for simplicity
+                             submitData[input.name] = input.files[0].name; // Just send the file name for simplicity
                         }
                     } else if (input.name) {
                         submitData[input.name] = input.value;
@@ -622,22 +544,22 @@
                 // Add selected icon values to the submission data
                 const itemSelection = Array.from(document.querySelectorAll('#item-selection .selected')).map(el => el.dataset.value);
                 if (itemSelection.length > 0) {
-                    submitData['items_to_transport'] = itemSelection.join(', ');
+                     submitData['items_to_transport'] = itemSelection.join(', ');
                 }
 
                 const packingOption = document.querySelector('#packing-selection .selected')?.dataset.value;
                 if (packingOption) {
-                    submitData['packing_option'] = packingOption;
+                     submitData['packing_option'] = packingOption;
                 }
 
                 const additionalServices = Array.from(document.querySelectorAll('#services-selection .selected')).map(el => el.dataset.value);
                 if (additionalServices.length > 0) {
-                    submitData['additional_services'] = additionalServices.join(', ');
+                     submitData['additional_services'] = additionalServices.join(', ');
                 }
 
                 const timingOption = document.querySelector('#timing-selection .selected')?.dataset.value;
                 if (timingOption) {
-                    submitData['timing_option'] = timingOption;
+                     submitData['timing_option'] = timingOption;
                 }
 
                 // Check honeypot field
@@ -673,14 +595,14 @@
                     validationMessage.classList.remove('hidden');
                 }
             }
-
+            
             // Move event listeners to a helper function that will be called after the functions are defined.
             function setupEventListeners() {
                 nextButton.addEventListener('click', (event) => {
                     if (currentStep === stepElements.length - 1) {
-                        handleSubmit(event);
+                         handleSubmit(event);
                     } else if (validateStep(currentStep)) {
-                        handleStepChange(1);
+                         handleStepChange(1);
                     } else {
                         validationMessage.classList.remove('hidden');
                     }
@@ -690,7 +612,7 @@
                     validationMessage.classList.add('hidden');
                     handleStepChange(-1);
                 });
-
+                
                 form.addEventListener('change', updateButtonState);
                 form.addEventListener('input', updateButtonState);
 
@@ -716,7 +638,7 @@
                         }
                     });
                 }
-
+                
                 setupMultiSelect('item-selection');
                 setupSingleSelect('packing-selection');
                 setupMultiSelect('services-selection');
@@ -729,5 +651,4 @@
         });
     </script>
 </body>
-
 </html>
