@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "customer-service@yourcompany.com", // replace with real recipient
+    to: "asir.jan.2017@gmail.com", // replace with real recipient
     subject: `New Moving Request from ${data.name}`,
     text: emailBody,
   };
