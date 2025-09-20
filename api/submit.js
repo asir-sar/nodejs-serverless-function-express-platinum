@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-
+console.log("STEP 1------------------------------------- ");
 module.exports = async (req, res) => {
   // Only allow POST requests
   if (req.method !== "POST") {
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
     }
     emailBody += `${key.replace(/_/g, " ")}: ${data[key]}\n`;
   }
-
+console.log("STEP 2------------------------------------- ")
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "asir.jan.2017@gmail.com", // The recipient email address
