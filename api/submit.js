@@ -1,50 +1,54 @@
-// This is a simplified serverless function using Node.js
-// You would deploy this file to a service like Vercel, Netlify, or AWS Lambda.
-
+// Serverless function using Node.js (for Vercel, Netlify, AWS Lambda)
 const nodemailer = require("nodemailer");
 
-// Set up your email transporter using environment variables for security.
-// DO NOT hard-code your credentials here.
+// Configure transporter (use env vars for security)
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Or another email service like SendGrid, Mailgun, etc.
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
-console.log("STEP 1------------------------------------- ");
+
 module.exports = async (req, res) => {
   // Only allow POST requests
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
 
-  const data = req.body;
-
-  // Honeypot check for spam prevention
-  if (data._honeypot) {
-    console.log("Spam bot detected. Discarding request.");
-    return res.status(200).send("Success (bot)"); // Return success to not tip off the bot
+  // Parse request body safely
+  let data;
+  try {
+    data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  } catch (err) {
+    console.error("Invalid JSON body:", err);
+    return res.status(400).send("Invalid JSON.");
   }
 
-  // Simple validation for required fields
-  if (!data.name || !data.email || !data.phone_number) {
+  // Honeypot spam check
+  if (data._honeypot) {
+    console.log("Spam bot detected. Ignoring request.");
+    return res.status(200).send("Success (bot)");
+  }
+
+  // Normalize phone field (accept phone or phone_number)
+  const phone = data.phone_number || data.phone;
+
+  // Validate required fields
+  if (!data.name || !data.email || !phone) {
     return res.status(400).send("Missing required fields.");
   }
 
-  // Format the email content
+  // Build email body
   let emailBody = "New moving request received:\n\n";
   for (const key in data) {
-    // Skip honeypot field
-    if (key === "_honeypot") {
-      continue;
-    }
+    if (key === "_honeypot") continue;
     emailBody += `${key.replace(/_/g, " ")}: ${data[key]}\n`;
   }
-console.log("STEP 2------------------------------------- ")
+
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "asir.jan.2017@gmail.com", // The recipient email address
+    to: "customer-service@yourcompany.com", // replace with real recipient
     subject: `New Moving Request from ${data.name}`,
     text: emailBody,
   };
@@ -57,4 +61,3 @@ console.log("STEP 2------------------------------------- ")
     res.status(500).send("Failed to send email.");
   }
 };
-
