@@ -62,10 +62,12 @@ module.exports = async (req, res) => {
 
   const phone = data.phone || data["appointment-phone"];
 
+
   // Validate required fields
-  if (!data.name || !data.email || (data.form_type === "appointment" && !phone)) {
-    return res.status(400).send("Missing required fields");
-  }
+if (!data.name || (data.form_type !== "appointment" && !data.email) || (data.form_type === "appointment" && !phone)) {
+  return res.status(400).send("Missing required fields");
+}
+
 
   // Build email content
   let emailBody = `New submission (${data.form_type || "unknown form"}):\n\n`;
