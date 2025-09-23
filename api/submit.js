@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const querystring = require("querystring");
 
 // Configure transporter
 const transporter = nodemailer.createTransport({
@@ -9,14 +10,36 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Helper: parse both JSON and URL-encoded form
+const parseBody = async (req) => {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", chunk => (body += chunk));
+    req.on("end", () => {
+      try {
+        if (req.headers["content-type"]?.includes("application/json")) {
+          resolve(JSON.parse(body));
+        } else if (req.headers["content-type"]?.includes("application/x-www-form-urlencoded")) {
+          resolve(querystring.parse(body));
+        } else {
+          resolve({});
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+  });
+};
+
 module.exports = async (req, res) => {
-  // CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "*"); // allow all origins
+  // Set CORS headers for all requests
+  res.setHeader("Access-Control-Allow-Origin", "*"); // allow all domains
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Preflight OPTIONS request
   if (req.method === "OPTIONS") {
-    return res.status(200).end(); // preflight request
+    return res.status(200).send("OK");
   }
 
   if (req.method !== "POST") {
@@ -25,24 +48,27 @@ module.exports = async (req, res) => {
 
   let data;
   try {
-    data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    data = await parseBody(req);
   } catch (err) {
-    console.error("Invalid JSON body:", err);
-    return res.status(400).send("Invalid JSON.");
+    console.error("Invalid body:", err);
+    return res.status(400).send("Invalid request body");
   }
 
+  // Honeypot check
   if (data._honeypot) {
-    console.log("Spam bot detected. Ignoring request.");
+    console.log("Bot detected, ignoring request.");
     return res.status(200).send("Success (bot)");
   }
 
   const phone = data.phone || data["appointment-phone"];
 
+  // Validate required fields
   if (!data.name || !data.email || (data.form_type === "appointment" && !phone)) {
-    return res.status(400).send("Missing required fields.");
+    return res.status(400).send("Missing required fields");
   }
 
-  let emailBody = `New submission (${data.form_type} form):\n\n`;
+  // Build email content
+  let emailBody = `New submission (${data.form_type || "unknown form"}):\n\n`;
   for (const key in data) {
     if (key === "_honeypot") continue;
     emailBody += `${key.replace(/_/g, " ")}: ${data[key]}\n`;
@@ -50,16 +76,16 @@ module.exports = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "asir.jan.2017@gmail.com", // your real recipient
-    subject: `New ${data.form_type} submission from ${data.name}`,
+    to: "asir.jan.2017@gmail.com",
+    subject: `New ${data.form_type || "form"} submission from ${data.name}`,
     text: emailBody,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).send("Email sent successfully!");
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).send("Failed to send email.");
+    return res.status(200).send("Email sent successfully!");
+  } catch (err) {
+    console.error("Error sending email:", err);
+    return res.status(500).send("Failed to send email");
   }
 };
