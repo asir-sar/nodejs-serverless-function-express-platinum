@@ -260,5 +260,325 @@
             </div>
         </form>
     </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('moving-form');
+            const stepElements = Array.from(document.querySelectorAll('.step-content'));
+            const nextButton = document.getElementById('next-button');
+            const backButton = document.getElementById('back-button');
+            const progressBar = document.getElementById('progress-bar');
+            const stepCount = document.getElementById('step-count');
+            const stepName = document.getElementById('step-name');
+            const summaryContent = document.getElementById('summary-content');
+            const thankYouMessage = document.getElementById('thank-you-message');
+            const validationMessage = document.getElementById('validation-message');
+
+            let currentStep = 0;
+            const formNames = ["Location", "Transport Details", "Origin & Destination", "Additional Info", "Summary"];
+
+            // Load saved state from localStorage
+            let formData = JSON.parse(localStorage.getItem('movingFormData')) || {};
+
+            function saveStepData(stepIndex) {
+                switch (stepIndex) {
+                    case 0:
+                        formData.originPostcode = document.getElementById('origin-postcode').value;
+                        break;
+                    case 1:
+                        formData.itemsToTransport = Array.from(document.querySelectorAll('#item-selection .selected')).map(el => el.dataset.value);
+                        formData.boxes = document.getElementById('boxes').value;
+                        formData.livingSpace = document.getElementById('living-space').value;
+                        formData.packingOption = document.querySelector('#packing-selection .selected')?.dataset.value || null;
+                        formData.additionalServices = Array.from(document.querySelectorAll('#services-selection .selected')).map(el => el.dataset.value);
+                        break;
+                    case 2:
+                        formData.origin = {
+                            floor: document.getElementById('origin-floor').value,
+                            elevator: document.getElementById('origin-elevator').value,
+                            parking: document.getElementById('origin-parking').value,
+                        };
+                        formData.destination = {
+                            postcode: document.getElementById('destination-postcode').value,
+                            city: document.getElementById('destination-city').value,
+                            floor: document.getElementById('destination-floor').value,
+                            elevator: document.getElementById('destination-elevator').value,
+                            parking: document.getElementById('destination-parking').value,
+                        };
+                        break;
+                    case 3:
+                        formData.timing = document.querySelector('#timing-selection .selected')?.dataset.value || null;
+                        const photoInput = document.getElementById('photos');
+                        if (photoInput.files.length > 0) {
+                            formData.photos = { fileName: photoInput.files[0].name, size: photoInput.files[0].size };
+                        } else {
+                            delete formData.photos;
+                        }
+                        formData.otherInfo = document.getElementById('other-info').value;
+                        break;
+                    case 4:
+                        formData.email = document.getElementById('email').value;
+                        formData.name = document.getElementById('name').value;
+                        formData.phone_number = document.getElementById('phone').value;
+                        formData.newsletterConsent = document.getElementById('newsletter-consent').checked;
+                        break;
+                }
+                localStorage.setItem('movingFormData', JSON.stringify(formData));
+            }
+
+            function validateStep(stepIndex) {
+                switch (stepIndex) {
+                    case 0:
+                        return document.getElementById('origin-postcode').value.trim() !== '';
+                    case 1:
+                        return (
+                            Array.from(document.querySelectorAll('#item-selection .selected')).length > 0 &&
+                            document.querySelector('#packing-selection .selected') !== null
+                        );
+                    case 2:
+                        return (
+                            document.getElementById('origin-floor').value !== '' &&
+                            document.getElementById('origin-elevator').value !== '' &&
+                            document.getElementById('origin-parking').value !== '' &&
+                            document.getElementById('destination-postcode').value.trim() !== '' &&
+                            document.getElementById('destination-city').value.trim() !== '' &&
+                            document.getElementById('destination-floor').value !== '' &&
+                            document.getElementById('destination-elevator').value !== '' &&
+                            document.getElementById('destination-parking').value !== ''
+                        );
+                    case 3:
+                        // Step 4 has no required fields
+                        return true;
+                    case 4:
+                        const email = document.getElementById('email').value.trim();
+                        const name = document.getElementById('name').value.trim();
+                        const phone = document.getElementById('phone').value.trim();
+                        const newsletterConsent = document.getElementById('newsletter-consent').checked;
+                        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+                        // All contact fields are required for this step
+                        return emailValid && name !== '' && phone !== '' && newsletterConsent;
+                    default:
+                        return true;
+                }
+            }
+
+            function updateButtonState() {
+                const isValid = validateStep(currentStep);
+                nextButton.disabled = !isValid;
+                validationMessage.classList.toggle('hidden', isValid);
+
+                // Also update submit button if it's the last step
+                if (currentStep === stepElements.length - 1) {
+                    const nameInput = document.getElementById('name');
+                    const phoneInput = document.getElementById('phone');
+                    const emailInput = document.getElementById('email');
+                    const consentCheckbox = document.getElementById('newsletter-consent');
+                    const isFinalStepValid = nameInput.value.trim() !== '' && phoneInput.value.trim() !== '' && emailInput.value.trim() !== '' && consentCheckbox.checked;
+                    nextButton.disabled = !isFinalStepValid;
+                }
+            }
+
+            function updateUI() {
+                stepElements.forEach((step, index) => {
+                    step.classList.toggle('active', index === currentStep);
+                });
+
+                backButton.style.display = currentStep > 0 ? 'block' : 'none';
+
+                if (currentStep === stepElements.length - 1) {
+                    nextButton.textContent = 'Submit';
+                } else {
+                    nextButton.textContent = 'Next';
+                }
+
+                const progress = ((currentStep + 1) / stepElements.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                stepCount.textContent = `Step ${currentStep + 1} of ${stepElements.length}`;
+                stepName.textContent = formNames[currentStep];
+
+                if (currentStep === stepElements.length - 1) {
+                    generateSummary();
+                }
+
+                // Update button state based on validation
+                updateButtonState();
+            }
+
+            function generateSummary() {
+                let summaryText = "";
+                const data = formData;
+                for (const key in data) {
+                    let value = data[key];
+                    if (Array.isArray(value) && value.length > 0) {
+                        value = value.join(', ');
+                    } else if (typeof value === 'object' && value !== null) {
+                        // Check for file data
+                        if (value.fileName) {
+                            summaryText += `\n<strong>${key}:</strong> ${value.fileName}`;
+                            continue;
+                        }
+                        // Handle nested objects from form fields
+                        let nestedSummary = [];
+                        for (const subKey in value) {
+                            if (value[subKey]) {
+                                nestedSummary.push(`${subKey}: ${value[subKey]}`);
+                            }
+                        }
+                        if (nestedSummary.length > 0) {
+                            summaryText += `\n<strong>${key}:</strong>\n - ${nestedSummary.join('\n - ')}`;
+                        }
+                        continue;
+                    }
+                    if (value) {
+                        summaryText += `\n<strong>${key}:</strong> ${value}`;
+                    }
+                }
+                summaryContent.innerHTML = summaryText.trim() === "" ? "No data entered yet." : summaryText;
+            }
+
+            function handleStepChange(direction) {
+                // Save data for the current step
+                saveStepData(currentStep);
+
+                const nextStep = currentStep + direction;
+                if (nextStep >= 0 && nextStep < stepElements.length) {
+                    currentStep = nextStep;
+                    updateUI();
+                }
+            }
+
+            async function handleSubmit(event) {
+                event.preventDefault();
+                saveStepData(currentStep);
+
+                // Collect all form data including hidden fields
+                const formInputs = document.querySelectorAll('input, select, textarea');
+                const submitData = {};
+                formInputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        submitData[input.name] = input.checked;
+                    } else if (input.type === 'file') {
+                        if (input.files.length > 0) {
+                            submitData[input.name] = input.files[0].name; // Just send the file name for simplicity
+                        }
+                    } else if (input.name) {
+                        if (input.name === "phone") {
+                            submitData["phone_number"] = input.value; // normalize
+                        } else {
+                            submitData[input.name] = input.value;
+                        }
+                    }
+                });
+
+                // Add selected icon values to the submission data
+                const itemSelection = Array.from(document.querySelectorAll('#item-selection .selected')).map(el => el.dataset.value);
+                if (itemSelection.length > 0) {
+                    submitData['items_to_transport'] = itemSelection.join(', ');
+                }
+
+                const packingOption = document.querySelector('#packing-selection .selected')?.dataset.value;
+                if (packingOption) {
+                    submitData['packing_option'] = packingOption;
+                }
+
+                const additionalServices = Array.from(document.querySelectorAll('#services-selection .selected')).map(el => el.dataset.value);
+                if (additionalServices.length > 0) {
+                    submitData['additional_services'] = additionalServices.join(', ');
+                }
+
+                const timingOption = document.querySelector('#timing-selection .selected')?.dataset.value;
+                if (timingOption) {
+                    submitData['timing_option'] = timingOption;
+                }
+
+                // Check honeypot field
+                if (form.querySelector('input[name="_honeypot"]').value !== '') {
+                    console.log('Bot detected, form submission blocked.');
+                    return; // Silently block bot submissions
+                }
+                console.log('&&&&&&&',submitData);
+                
+                try {
+                    // Replace with your actual serverless function URL
+                    const response = await fetch('/api/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(submitData),
+                    });
+
+                    if (response.ok) {
+                        console.log('Form submitted successfully!');
+                        localStorage.removeItem('movingFormData');
+                        form.classList.add('hidden');
+                        thankYouMessage.classList.remove('hidden');
+                    } else {
+                        console.error('Submission failed:', response.statusText);
+                        // Display error message to user
+                        validationMessage.textContent = 'Submission failed. Please try again later.';
+                        validationMessage.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Network error:', error);
+                    validationMessage.textContent = 'Network error. Please check your connection and try again.';
+                    validationMessage.classList.remove('hidden');
+                }
+            }
+
+            // Move event listeners to a helper function that will be called after the functions are defined.
+            function setupEventListeners() {
+                nextButton.addEventListener('click', (event) => {
+                    if (currentStep === stepElements.length - 1) {
+                        handleSubmit(event);
+                    } else if (validateStep(currentStep)) {
+                        handleStepChange(1);
+                    } else {
+                        validationMessage.classList.remove('hidden');
+                    }
+                });
+
+                backButton.addEventListener('click', () => {
+                    validationMessage.classList.add('hidden');
+                    handleStepChange(-1);
+                });
+
+                form.addEventListener('change', updateButtonState);
+                form.addEventListener('input', updateButtonState);
+
+                // Handle icon selections for single-select groups
+                function setupSingleSelect(containerId) {
+                    document.getElementById(containerId).addEventListener('click', (event) => {
+                        const card = event.target.closest('.icon-card');
+                        if (card) {
+                            Array.from(card.parentNode.children).forEach(child => child.classList.remove('selected'));
+                            card.classList.add('selected');
+                            updateButtonState();
+                        }
+                    });
+                }
+
+                // Handle icon selections for multi-select groups
+                function setupMultiSelect(containerId) {
+                    document.getElementById(containerId).addEventListener('click', (event) => {
+                        const card = event.target.closest('.icon-card');
+                        if (card) {
+                            card.classList.toggle('selected');
+                            updateButtonState();
+                        }
+                    });
+                }
+
+                setupMultiSelect('item-selection');
+                setupSingleSelect('packing-selection');
+                setupMultiSelect('services-selection');
+                setupSingleSelect('timing-selection');
+            }
+
+            // Initial UI update and event listener setup
+            updateUI();
+            setupEventListeners();
+        });
+    </script>
 </body>
 </html>
