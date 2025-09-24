@@ -1,1 +1,264 @@
 
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umzugsunternehmen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .icon-card {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 2px solid rgb(229, 231, 235);
+            border-radius: 0.75rem;
+        }
+
+        .icon-card.selected {
+            background-color: rgba(65, 131, 215, 0.1);
+            box-shadow: 0 0 0 4px #297be2;
+        }
+
+        .icon-card-small {
+            min-width: unset;
+        }
+
+        h2,
+        h3,
+        h4,
+        .form-label {
+            color: #444;
+        }
+
+        .btn-primary {
+            background-color: #22a9e3;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a8fbe;
+        }
+
+        .btn-secondary {
+            background-color: #eee;
+            color: #444;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select,
+        textarea {
+            border: 1px solid #ccc;
+            border-radius: 0;
+            padding: 0.75rem;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .075);
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen py-10">
+    <div class="bg-white p-8 sm:p-10 w-full max-w-2xl mx-4 transition-all duration-300">
+        <!-- Fortschrittsbalken -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center text-sm font-semibold text-gray-600 mb-2">
+                <span id="step-count">Schritt 1 von 5</span>
+                <span id="step-name">Standort</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-500 ease-in-out"
+                    style="width: 20%;"></div>
+            </div>
+        </div>
+
+        <!-- Validierungsbox -->
+        <div id="validation-message" class="hidden p-4 mb-6 rounded-lg bg-red-100 text-red-700 font-medium">
+            Bitte füllen Sie alle erforderlichen Felder aus.
+        </div>
+
+        <form id="moving-form">
+            <!-- Honeypot -->
+            <input type="text" name="_honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
+
+            <!-- Schritt 1 -->
+            <div id="step-1" class="step-content active">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wo befindet sich Ihr Auftrag?</h2>
+                <p class="text-gray-600 mb-6">Bitte geben Sie die Postleitzahl Ihres Auftrags an.</p>
+                <input type="text" id="origin-postcode" name="origin_postcode" placeholder="Postleitzahl"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            </div>
+
+            <!-- Schritt 2 -->
+            <div id="step-2" class="step-content">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Was möchten Sie transportieren?</h2>
+                <p class="text-gray-600 mb-6">Bitte wählen Sie alle benötigten Optionen aus.</p>
+                <div id="item-selection" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="icon-card flex flex-col items-center p-4" data-value="TV">
+                        <span class="text-3xl mb-2">📺</span>
+                        <span class="text-sm font-medium text-gray-700">Fernseher</span>
+                    </div>
+                    <div class="icon-card flex flex-col items-center p-4" data-value="Bed">
+                        <span class="text-3xl mb-2">🛏️</span>
+                        <span class="text-sm font-medium text-gray-700">Bett</span>
+                    </div>
+                    <div class="icon-card flex flex-col items-center p-4" data-value="Wardrobe">
+                        <span class="text-3xl mb-2">👔</span>
+                        <span class="text-sm font-medium text-gray-700">Kleiderschrank</span>
+                    </div>
+                    <div class="icon-card flex flex-col items-center p-4" data-value="Sofa">
+                        <span class="text-3xl mb-2">🛋️</span>
+                        <span class="text-sm font-medium text-gray-700">Sofa</span>
+                    </div>
+                    <div class="icon-card flex flex-col items-center p-4" data-value="Table">
+                        <span class="text-3xl mb-2">🍽️</span>
+                        <span class="text-sm font-medium text-gray-700">Tisch</span>
+                    </div>
+                    <div class="icon-card flex flex-col items-center p-4" data-value="Box">
+                        <span class="text-3xl mb-2">📦</span>
+                        <span class="text-sm font-medium text-gray-700">Karton</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="boxes" class="block text-sm font-medium text-gray-700 mb-2">Wie viele Umzugskartons?
+                            (optional)</label>
+                        <input type="number" id="boxes" name="boxes_count" placeholder="Anzahl der Kartons"
+                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="living-space" class="block text-sm font-medium text-gray-700 mb-2">Ungefähre
+                            Wohnfläche (m²)? (optional)</label>
+                        <input type="number" id="living-space" name="living_space" placeholder="Größe in m²"
+                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold mb-3 text-gray-800">Wer übernimmt das Einpacken?</h3>
+                <div id="packing-selection" class="flex flex-wrap gap-4 mb-8">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
+                        data-value="Self">
+                        <span class="text-3xl mb-2">🙋</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Selbst verpacken</span>
+                    </div>
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
+                        data-value="Company">
+                        <span class="text-3xl mb-2">📦🚚</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Umzugsfirma</span>
+                    </div>
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
+                        data-value="Consultation">
+                        <span class="text-3xl mb-2">🤝</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Nach Absprache</span>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold mb-3 text-gray-800">Benötigen Sie zusätzliche Leistungen? (optional)</h3>
+                <div id="services-selection" class="flex flex-wrap gap-4">
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Assembly">
+                        <span class="text-3xl mb-2">🛠️</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Montage & Demontage</span>
+                    </div>
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Packaging">
+                        <span class="text-3xl mb-2">📦</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Verpackungsmaterial</span>
+                    </div>
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Storage">
+                        <span class="text-3xl mb-2">🏠</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Lagerung</span>
+                    </div>
+                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Other">
+                        <span class="text-3xl mb-2">ℹ️</span>
+                        <span class="text-sm font-medium text-gray-700 text-center">Sonstiges</span>
+                    </div>
+                </div>
+            </div>
+
+                      <!-- Schritt 3 -->
+            <div id="step-3" class="step-content">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wohin soll der Auftrag gehen?</h2>
+                <p class="text-gray-600 mb-6">Bitte geben Sie die Ziel-Postleitzahl ein.</p>
+                <input type="text" id="destination-postcode" name="destination_postcode" placeholder="Postleitzahl"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            </div>
+
+            <!-- Schritt 4 -->
+            <div id="step-4" class="step-content">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wann soll der Umzug stattfinden?</h2>
+                <p class="text-gray-600 mb-6">Bitte wählen Sie das gewünschte Datum aus.</p>
+                <input type="date" id="moving-date" name="moving_date"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            </div>
+
+            <!-- Schritt 5 -->
+            <div id="step-5" class="step-content">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wie können wir Sie erreichen?</h2>
+                <p class="text-gray-600 mb-6">Bitte geben Sie Ihre Kontaktdaten ein.</p>
+                <div class="space-y-6">
+                    <div>
+                        <label for="full-name" class="block text-sm font-medium text-gray-700 mb-2">Vollständiger Name</label>
+                        <input type="text" id="full-name" name="full_name" placeholder="Ihr Name"
+                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">E-Mail-Adresse</label>
+                        <input type="email" id="email" name="email" placeholder="Ihre E-Mail"
+                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefonnummer</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Ihre Telefonnummer"
+                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danke-Seite -->
+            <div id="thank-you" class="step-content">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-4 text-green-600">Vielen Dank für Ihre Anfrage!</h2>
+                    <p class="text-gray-600 mb-6">Wir haben Ihre Daten erhalten und melden uns in Kürze bei Ihnen.</p>
+                    <a href="./" class="btn-primary">Zur Startseite</a>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex justify-between mt-8">
+                <button type="button" id="prev-btn" class="btn-secondary hidden">Zurück</button>
+                <button type="button" id="next-btn" class="btn-primary ml-auto">Weiter</button>
+                <button type="submit" id="submit-btn" class="btn-primary ml-auto hidden">Absenden</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
