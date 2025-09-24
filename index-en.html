@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umzugsunternehmen</title>
+    <title>Moving Company</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -29,22 +28,27 @@
             transition: all 0.2s ease-in-out;
             border: 2px solid rgb(229, 231, 235);
             border-radius: 0.75rem;
+            /* rounded-xl */
         }
 
         .icon-card.selected {
             background-color: rgba(65, 131, 215, 0.1);
+            /* A light blue to match the brand */
             box-shadow: 0 0 0 4px #297be2;
+            /* A strong blue ring */
         }
 
         .icon-card-small {
             min-width: unset;
         }
 
+        /* Custom styles to match the Platinum-Umzüge site */
         h2,
         h3,
         h4,
         .form-label {
             color: #444;
+            /* Dark gray for text */
         }
 
         .btn-primary {
@@ -52,6 +56,7 @@
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 9999px;
+            /* full rounded */
             font-weight: 600;
             transition: background-color 0.2s;
         }
@@ -65,6 +70,7 @@
             color: #444;
             padding: 0.75rem 1.5rem;
             border-radius: 9999px;
+            /* full rounded */
             font-weight: 600;
             transition: background-color 0.2s;
         }
@@ -89,7 +95,8 @@
 
 <body class="flex items-center justify-center min-h-screen py-10">
     <div class="bg-white p-8 sm:p-10 w-full max-w-2xl mx-4 transition-all duration-300">
-        <!-- Fortschrittsbalken -->
+        <!-- Progress Bar -->
+        <a href="index-en.html">Englisch</a>
         <div class="mb-8">
             <div class="flex justify-between items-center text-sm font-semibold text-gray-600 mb-2">
                 <span id="step-count">Schritt 1 von 5</span>
@@ -101,166 +108,288 @@
             </div>
         </div>
 
-        <!-- Validierungsbox -->
+        <!-- Validation message box -->
         <div id="validation-message" class="hidden p-4 mb-6 rounded-lg bg-red-100 text-red-700 font-medium">
             Bitte füllen Sie alle erforderlichen Felder aus.
         </div>
 
         <form id="moving-form">
-            <!-- Honeypot -->
+            <!-- Honeypot field for spam prevention -->
             <input type="text" name="_honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-            <!-- Schritt 1 -->
+            <!-- Step 1: Assignment Location -->
             <div id="step-1" class="step-content active">
                 <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wo befindet sich Ihr Auftrag?</h2>
-                <p class="text-gray-600 mb-6">Bitte geben Sie die Postleitzahl Ihres Auftrags an.</p>
+                <p class="text-gray-600 mb-6">Bitte geben Sie die Postleitzahl Ihres Auftrags ein.</p>
                 <input type="text" id="origin-postcode" name="origin_postcode" placeholder="Postleitzahl"
                     class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
             </div>
 
-            <!-- Schritt 2 -->
-            <div id="step-2" class="step-content">
-                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Was möchten Sie transportieren?</h2>
-                <p class="text-gray-600 mb-6">Bitte wählen Sie alle benötigten Optionen aus.</p>
-                <div id="item-selection" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-                    <div class="icon-card flex flex-col items-center p-4" data-value="TV">
-                        <span class="text-3xl mb-2">📺</span>
-                        <span class="text-sm font-medium text-gray-700">Fernseher</span>
-                    </div>
-                    <div class="icon-card flex flex-col items-center p-4" data-value="Bed">
-                        <span class="text-3xl mb-2">🛏️</span>
-                        <span class="text-sm font-medium text-gray-700">Bett</span>
-                    </div>
-                    <div class="icon-card flex flex-col items-center p-4" data-value="Wardrobe">
-                        <span class="text-3xl mb-2">👔</span>
-                        <span class="text-sm font-medium text-gray-700">Kleiderschrank</span>
-                    </div>
-                    <div class="icon-card flex flex-col items-center p-4" data-value="Sofa">
-                        <span class="text-3xl mb-2">🛋️</span>
-                        <span class="text-sm font-medium text-gray-700">Sofa</span>
-                    </div>
-                    <div class="icon-card flex flex-col items-center p-4" data-value="Table">
-                        <span class="text-3xl mb-2">🍽️</span>
-                        <span class="text-sm font-medium text-gray-700">Tisch</span>
-                    </div>
-                    <div class="icon-card flex flex-col items-center p-4" data-value="Box">
-                        <span class="text-3xl mb-2">📦</span>
-                        <span class="text-sm font-medium text-gray-700">Karton</span>
-                    </div>
-                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label for="boxes" class="block text-sm font-medium text-gray-700 mb-2">Wie viele Umzugskartons?
-                            (optional)</label>
-                        <input type="number" id="boxes" name="boxes_count" placeholder="Anzahl der Kartons"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    </div>
-                    <div>
-                        <label for="living-space" class="block text-sm font-medium text-gray-700 mb-2">Ungefähre
-                            Wohnfläche (m²)? (optional)</label>
-                        <input type="number" id="living-space" name="living_space" placeholder="Größe in m²"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    </div>
-                </div>
-
-                <h3 class="text-lg font-semibold mb-3 text-gray-800">Wer übernimmt das Einpacken?</h3>
-                <div id="packing-selection" class="flex flex-wrap gap-4 mb-8">
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
-                        data-value="Self">
-                        <span class="text-3xl mb-2">🙋</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Selbst verpacken</span>
-                    </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
-                        data-value="Company">
-                        <span class="text-3xl mb-2">📦🚚</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Umzugsfirma</span>
-                    </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4"
-                        data-value="Consultation">
-                        <span class="text-3xl mb-2">🤝</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Nach Absprache</span>
-                    </div>
-                </div>
-
-                <h3 class="text-lg font-semibold mb-3 text-gray-800">Benötigen Sie zusätzliche Leistungen? (optional)</h3>
-                <div id="services-selection" class="flex flex-wrap gap-4">
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Assembly">
-                        <span class="text-3xl mb-2">🛠️</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Montage & Demontage</span>
-                    </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Packaging">
-                        <span class="text-3xl mb-2">📦</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Verpackungsmaterial</span>
-                    </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Storage">
-                        <span class="text-3xl mb-2">🏠</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Lagerung</span>
-                    </div>
-                    <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4" data-value="Other">
-                        <span class="text-3xl mb-2">ℹ️</span>
-                        <span class="text-sm font-medium text-gray-700 text-center">Sonstiges</span>
-                    </div>
-                </div>
-            </div>
-
-                      <!-- Schritt 3 -->
-            <div id="step-3" class="step-content">
-                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wohin soll der Auftrag gehen?</h2>
-                <p class="text-gray-600 mb-6">Bitte geben Sie die Ziel-Postleitzahl ein.</p>
-                <input type="text" id="destination-postcode" name="destination_postcode" placeholder="Postleitzahl"
-                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-            </div>
-
-            <!-- Schritt 4 -->
-            <div id="step-4" class="step-content">
-                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wann soll der Umzug stattfinden?</h2>
-                <p class="text-gray-600 mb-6">Bitte wählen Sie das gewünschte Datum aus.</p>
-                <input type="date" id="moving-date" name="moving_date"
-                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-            </div>
-
-            <!-- Schritt 5 -->
-            <div id="step-5" class="step-content">
-                <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Wie können wir Sie erreichen?</h2>
-                <p class="text-gray-600 mb-6">Bitte geben Sie Ihre Kontaktdaten ein.</p>
-                <div class="space-y-6">
-                    <div>
-                        <label for="full-name" class="block text-sm font-medium text-gray-700 mb-2">Vollständiger Name</label>
-                        <input type="text" id="full-name" name="full_name" placeholder="Ihr Name"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">E-Mail-Adresse</label>
-                        <input type="email" id="email" name="email" placeholder="Ihre E-Mail"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefonnummer</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Ihre Telefonnummer"
-                            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Danke-Seite -->
-            <div id="thank-you" class="step-content">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold mb-4 text-green-600">Vielen Dank für Ihre Anfrage!</h2>
-                    <p class="text-gray-600 mb-6">Wir haben Ihre Daten erhalten und melden uns in Kürze bei Ihnen.</p>
-                    <a href="./" class="btn-primary">Zur Startseite</a>
-                </div>
-            </div>
-
-            <!-- Navigation -->
-            <div class="flex justify-between mt-8">
-                <button type="button" id="prev-btn" class="btn-secondary hidden">Zurück</button>
-                <button type="button" id="next-btn" class="btn-primary ml-auto">Weiter</button>
-                <button type="submit" id="submit-btn" class="btn-primary ml-auto hidden">Absenden</button>
-            </div>
-        </form>
+           <!-- Step 2: What to transport & other details -->
+<div id="step-2" class="step-content">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Was möchten Sie transportieren?</h2>
+    <p class="text-gray-600 mb-6">Bitte wählen Sie alle benötigten Optionen aus.</p>
+    <div id="item-selection" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="TV">
+            <span class="text-3xl mb-2">📺</span>
+            <span class="text-sm font-medium text-gray-700">Fernseher</span>
+        </div>
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Bed">
+            <span class="text-3xl mb-2">🛏️</span>
+            <span class="text-sm font-medium text-gray-700">Bett</span>
+        </div>
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Wardrobe">
+            <span class="text-3xl mb-2">👔</span>
+            <span class="text-sm font-medium text-gray-700">Kleiderschrank</span>
+        </div>
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Sofa">
+            <span class="text-3xl mb-2">🛋️</span>
+            <span class="text-sm font-medium text-gray-700">Sofa</span>
+        </div>
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Table">
+            <span class="text-3xl mb-2">🍽️</span>
+            <span class="text-sm font-medium text-gray-700">Tisch</span>
+        </div>
+        <div class="icon-card flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Box">
+            <span class="text-3xl mb-2">📦</span>
+            <span class="text-sm font-medium text-gray-700">Karton</span>
+        </div>
     </div>
-      <script>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <label for="boxes" class="block text-sm font-medium text-gray-700 mb-2">Wie viele Umzugskartons? (optional)</label>
+            <input type="number" id="boxes" name="boxes_count" placeholder="Anzahl der Kartons"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+        </div>
+        <div>
+            <label for="living-space" class="block text-sm font-medium text-gray-700 mb-2">Ungefähre Wohnfläche (m²)? (optional)</label>
+            <input type="number" id="living-space" name="living_space" placeholder="Größe in m²"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+        </div>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-3 text-gray-800">Wer übernimmt das Verpacken?</h3>
+    <div id="packing-selection" class="flex flex-wrap gap-4 mb-8">
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Self">
+            <span class="text-3xl mb-2">🙋</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Selbst verpacken</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Company">
+            <span class="text-3xl mb-2">📦🚚</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Umzugsfirma</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Consultation">
+            <span class="text-3xl mb-2">🤝</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Nach Absprache</span>
+        </div>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-3 text-gray-800">Benötigen Sie zusätzliche Leistungen? (optional)</h3>
+    <div id="services-selection" class="flex flex-wrap gap-4">
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Assembly">
+            <span class="text-3xl mb-2">🛠️</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Montage & Demontage</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Packaging">
+            <span class="text-3xl mb-2">📦</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Verpackungsmaterial</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Storage">
+            <span class="text-3xl mb-2">🏠</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Einlagerung</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50" data-value="Other">
+            <span class="text-3xl mb-2">ℹ️</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Sonstiges</span>
+        </div>
+    </div>
+</div>
+
+
+           <!-- Step 3: Origin and destination details -->
+<div id="step-3" class="step-content">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Auszugs- und Einzugsdetails</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div>
+            <label for="origin-floor" class="block text-sm font-medium text-gray-700 mb-2">Auszugs-Etage</label>
+            <select id="origin-floor" name="origin_floor"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Etage wählen</option>
+                <option value="1">1. Etage</option>
+                <option value="2">2. Etage</option>
+                <option value="3">3. Etage</option>
+                <option value="4">4. Etage</option>
+                <option value="5+">5. Etage oder höher</option>
+            </select>
+        </div>
+        <div>
+            <label for="origin-elevator" class="block text-sm font-medium text-gray-700 mb-2">Aufzug am Auszugsort?</label>
+            <select id="origin-elevator" name="origin_elevator"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Option wählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+            </select>
+        </div>
+        <div>
+            <label for="origin-parking" class="block text-sm font-medium text-gray-700 mb-2">Parkmöglichkeit am Auszugsort?</label>
+            <select id="origin-parking" name="origin_parking"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Option wählen</option>
+                <option value="available">Parkplatz vorhanden</option>
+                <option value="no-holds">Halteverbotszone erforderlich</option>
+                <option value="no-info">Keine Angabe</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Zieldetails</h3>
+        <label for="destination-postcode" class="block text-sm font-medium text-gray-700 mb-2">In welche Stadt ziehen Sie?</label>
+        <input type="text" id="destination-postcode" name="destination_postcode"
+            placeholder="Postleitzahl des Zielorts"
+            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors mb-4">
+        <input type="text" id="destination-city" name="destination_city" placeholder="Name der Stadt"
+            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="destination-floor" class="block text-sm font-medium text-gray-700 mb-2">Einzugs-Etage</label>
+            <select id="destination-floor" name="destination_floor"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Etage wählen</option>
+                <option value="1">1. Etage</option>
+                <option value="2">2. Etage</option>
+                <option value="3">3. Etage</option>
+                <option value="4">4. Etage</option>
+                <option value="5+">5. Etage oder höher</option>
+            </select>
+        </div>
+        <div>
+            <label for="destination-elevator" class="block text-sm font-medium text-gray-700 mb-2">Aufzug am Zielort?</label>
+            <select id="destination-elevator" name="destination_elevator"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Option wählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+            </select>
+        </div>
+        <div>
+            <label for="destination-parking" class="block text-sm font-medium text-gray-700 mb-2">Parkmöglichkeit am Zielort?</label>
+            <select id="destination-parking" name="destination_parking"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option value="">Option wählen</option>
+                <option value="available">Parkplatz vorhanden</option>
+                <option value="no-holds">Halteverbotszone erforderlich</option>
+                <option value="no-info">Keine Angabe</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+           <!-- Step 4: Time, photos, other info -->
+<div id="step-4" class="step-content">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Zusätzliche Informationen</h2>
+
+    <h3 class="text-lg font-semibold mb-3 text-gray-800">Wann soll der Auftrag ausgeführt werden? (optional)</h3>
+    <div id="timing-selection" class="flex flex-wrap gap-4 mb-8">
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
+            data-value="Urgent">
+            <span class="text-3xl mb-2">⏰</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Dringend</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
+            data-value="Consultation">
+            <span class="text-3xl mb-2">🤝</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Nach Absprache</span>
+        </div>
+        <div class="icon-card icon-card-small flex-1 flex flex-col items-center p-4 rounded-xl hover:bg-gray-50"
+            data-value="2Weeks">
+            <span class="text-3xl mb-2">📅</span>
+            <span class="text-sm font-medium text-gray-700 text-center">Innerhalb von 2 Wochen</span>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <label for="photos" class="block text-sm font-medium text-gray-700 mb-2">Fotos oder Grundrisse (optional)</label>
+        <p class="text-xs text-gray-500 mb-3">Durch das Hinzufügen von Bildern können Handwerker Ihren Auftrag besser einschätzen und ein passenderes Angebot machen.</p>
+        <input type="file" id="photos" name="photos" accept="image/*"
+            class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+    </div>
+
+    <div>
+        <label for="other-info" class="block text-sm font-medium text-gray-700 mb-2">Weitere Informationen (optional)</label>
+        <p class="text-xs text-gray-500 mb-3">Bitte vermeiden Sie die Angabe von Kontaktdaten und nutzen Sie stattdessen die Kontaktfunktionen.</p>
+        <textarea id="other-info" name="other_info" rows="4" placeholder="Geben Sie hier weitere Details ein..."
+            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"></textarea>
+    </div>
+</div>
+
+
+            <!-- Step 5: Contact Info & Summary -->
+           <!-- Step 5: Contact Info & Summary -->
+<div id="step-5" class="step-content">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Abschließende Angaben & Absenden</h2>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Erhalten Sie Antworten von Handwerkern in Ihrer Nähe.</h3>
+        <p class="text-sm text-gray-500 mb-2">Ihre Daten sind nur für Handwerker sichtbar, wenn Sie diese kontaktieren.</p>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">E-Mail-Adresse</label>
+        <input type="email" id="email" name="email" placeholder="ihre@email.de"
+            class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+    </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Erstellen Sie ein Kundenkonto, um Updates zu Ihrer Bestellung zu erhalten.</h3>
+        <p class="text-sm text-gray-500 mb-2">Ihre Daten sind nur für Handwerker sichtbar, wenn Sie diese kontaktieren.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Vollständiger Name</label>
+                <input type="text" id="name" name="name" placeholder="Ihr vollständiger Name"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            </div>
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefonnummer</label>
+                <input type="tel" id="phone" name="phone_number" placeholder="Telefonnummer"
+                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 p-6 rounded-2xl mb-6">
+        <h4 class="font-bold text-gray-800 mb-2">Zusammenfassung Ihrer Bestellung:</h4>
+        <p id="summary-content" class="text-sm text-gray-700 whitespace-pre-line"></p>
+    </div>
+
+    <div class="flex items-center mb-4">
+        <input type="checkbox" id="newsletter-consent"
+            class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+        <label for="newsletter-consent" class="ml-2 block text-xs text-gray-600">
+            Ich möchte Werbung über Dienstleistungen von MyHammer per E-Mail, SMS und/oder Telefon erhalten. Ich kann mich jederzeit abmelden.
+        </label>
+    </div>
+    <p class="text-xs text-gray-500 leading-tight">Mit dem Klicken auf "Weiter" akzeptieren Sie die Allgemeinen Geschäftsbedingungen von MyHammer. Informationen zur Verarbeitung Ihrer Daten finden Sie in unserer Datenschutzerklärung.</p>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="flex justify-between mt-8">
+    <button type="button" id="back-button" class="btn-secondary" style="display: none;">Zurück</button>
+    <button type="button" id="next-button"
+        class="ml-auto btn-primary disabled:opacity-50 disabled:cursor-not-allowed">Weiter</button>
+</div>
+</form>
+
+<!-- Thank You Message -->
+<div id="thank-you-message" class="hidden text-center p-10">
+    <h2 class="text-3xl font-bold text-green-600 mb-4">Vielen Dank für Ihre Bestellung!</h2>
+    <p class="text-lg text-gray-700">Wir haben Ihre Angaben erhalten und ein Handwerker wird sich in Kürze mit Ihnen in Verbindung setzen.</p>
+</div>
+
+    </div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('moving-form');
             const stepElements = Array.from(document.querySelectorAll('.step-content'));
@@ -581,4 +710,6 @@
         });
     </script>
 </body>
+
 </html>
+
