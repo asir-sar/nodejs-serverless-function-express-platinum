@@ -85,7 +85,7 @@ if (!data.name || (data.form_type !== "appointment" && !data.email) || (data.for
 
   try {
     await transporter.sendMail(mailOptions);
-    return res.status(200).redirect("../send.html");
+    return res.status(200).redirect("../sent.html");
   } catch (err) {
     console.error("Error sending email:", err);
     return res.status(500).send("Failed to send email");
