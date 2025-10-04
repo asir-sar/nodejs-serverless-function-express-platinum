@@ -662,6 +662,8 @@
                     if (response.ok) {
                         console.log('Form submitted successfully!');
                         localStorage.removeItem('movingFormData');
+                        form.reset();
+                        document.querySelectorAll('.icon-card.selected').forEach(el => el.classList.remove('selected'));
                         form.classList.add('hidden');
                         thankYouMessage.classList.remove('hidden');
                     } else {
