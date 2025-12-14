@@ -78,7 +78,7 @@ if (!data.name || (data.form_type !== "appointment" && !data.email) || (data.for
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "asir.jan.2017@gmail.com",
+    to: "platinumumzuege@gmail.com",
     subject: `New ${data.form_type || "form"} submission from ${data.name}`,
     text: emailBody,
   };
