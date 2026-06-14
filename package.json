@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-serverless-function-express-platinum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asir-sar/nodejs-serverless-function-express-platinum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asir-sar/nodejs-serverless-function-express-platinum/issues"
+  },
+  "homepage": "https://github.com/asir-sar/nodejs-serverless-function-express-platinum#readme",
+  "dependencies": {
+    "@upstash/redis": "^1.38.0"
+  }
+}
