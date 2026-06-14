@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = (req, res) => {
   const { method, url, headers, query, body } = req;
 
   const html = `
@@ -14,16 +14,12 @@ export default function handler(req, res) {
 </head>
 <body>
   <h1>${method} request received</h1>
-
   <h2>URL</h2>
   <pre>${url}</pre>
-
   <h2>Query Params</h2>
   <pre>${JSON.stringify(query, null, 2)}</pre>
-
   <h2>Headers</h2>
   <pre>${JSON.stringify(headers, null, 2)}</pre>
-
   <h2>Body</h2>
   <pre>${JSON.stringify(body, null, 2)}</pre>
 </body>
@@ -31,4 +27,4 @@ export default function handler(req, res) {
 
   res.setHeader('Content-Type', 'text/html');
   res.status(200).send(html);
-}
+};
